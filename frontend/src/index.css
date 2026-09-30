@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: #F8FAF8;
+  color: #2D1412;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8FAF8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E6B8B2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7A3F39;
+}
+
+/* Leaflet clean natural popup */
+.leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  color: #2D1412 !important;
+  border: 1px solid #E6B8B2;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px -4px rgba(45, 20, 18, 0.12);
+}
+
+.leaflet-popup-tip {
+  background: #FFFFFF !important;
+}
+
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  background-color: #F8FAF8 !important;
+}

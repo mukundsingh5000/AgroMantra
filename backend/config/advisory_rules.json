@@ -1,0 +1,141 @@
+{
+  "crops": ["Rice", "Maize", "Tomato", "Potato", "Apple", "Wheat", "Other"],
+  "growth_stages": [
+    "Sowing / Planting",
+    "Vegetative",
+    "Flowering / Pollination",
+    "Fruit / Grain Filling",
+    "Harvesting / Post-Harvest"
+  ],
+  "rainfall_thresholds": {
+    "dry": 1.0,
+    "light": 5.0,
+    "moderate": 15.0,
+    "heavy": 35.0,
+    "extreme": 60.0
+  },
+  "temperature_thresholds": {
+    "heat_wave": 36.0,
+    "high_temp": 32.0,
+    "optimal_max": 28.0,
+    "optimal_min": 15.0,
+    "cold_stress": 12.0,
+    "frost_risk": 5.0
+  },
+  "general_rules": [
+    {
+      "id": "heavy_rain_irrigation",
+      "condition": "rain_p50 >= 10.0 or rain_p90 >= 25.0",
+      "category": "Irrigation Management",
+      "title": "Postpone Irrigation",
+      "advisory": "Substantial rainfall expected (P50: {rain_p50} mm, P90: {rain_p90} mm). Withhold artificial irrigation to prevent waterlogging and nutrient leaching.",
+      "severity": "Moderate",
+      "reason": "Predicted rainfall is sufficient for soil moisture retention."
+    },
+    {
+      "id": "dry_spell_irrigation",
+      "condition": "rain_p50 < 1.0 and tmax_p50 > 30.0",
+      "category": "Irrigation Management",
+      "title": "Schedule Light Irrigation",
+      "advisory": "Dry and warm conditions predicted (TMAX P50: {tmax_p50} °C, Rain P50: {rain_p50} mm). Apply light, scheduled irrigation to maintain root zone moisture.",
+      "severity": "Info",
+      "reason": "Elevated evapotranspiration during warm dry periods increases crop water demand."
+    },
+    {
+      "id": "rain_spray_warning",
+      "condition": "rain_p50 >= 5.0 or rain_p90 >= 15.0",
+      "category": "Plant Protection",
+      "title": "Avoid Chemical Spraying",
+      "advisory": "Rainfall anticipated during the upcoming period. Postpone pesticide, fungicide, and foliar fertilizer sprays to prevent chemical wash-off.",
+      "severity": "High",
+      "reason": "Rainfall within 6 hours of chemical application reduces product efficacy and causes environmental runoff."
+    },
+    {
+      "id": "dry_spray_opportunity",
+      "condition": "rain_p50 < 2.0 and rain_p90 < 8.0",
+      "category": "Plant Protection",
+      "title": "Favorable Spraying Window",
+      "advisory": "Low probability of rainfall. Safe window for scheduled plant protection operations.",
+      "severity": "Info",
+      "reason": "Clear skies and low precipitation risk support optimal foliar absorption."
+    },
+    {
+      "id": "harvest_rain_risk",
+      "condition": "rain_p50 >= 5.0 and growth_stage == 'Harvesting / Post-Harvest'",
+      "category": "Harvest Operations",
+      "title": "Delay Harvesting / Protect Threshed Grain",
+      "advisory": "Rainfall expected during harvest phase (Rain P50: {rain_p50} mm). Suspend harvesting or ensure threshed produce is stored in rain-proof shelters.",
+      "severity": "High",
+      "reason": "Wet weather during harvest increases seed sprouting, fungal rot, and grain discoloration."
+    },
+    {
+      "id": "heat_stress_flowering",
+      "condition": "tmax_p50 >= 33.0 and growth_stage in ['Flowering / Pollination', 'Fruit / Grain Filling']",
+      "category": "Thermal Management",
+      "title": "Mitigate Heat Stress During Critical Growth Phase",
+      "advisory": "High daytime temperatures (TMAX P50: {tmax_p50} °C). Maintain adequate soil moisture through micro-irrigation or mulching to cushion pollen viability.",
+      "severity": "High",
+      "reason": "Temperatures exceeding threshold during reproductive phase cause flower drop and reduced fruit set."
+    }
+  ],
+  "crop_specific_rules": {
+    "Rice": [
+      {
+        "condition": "rain_p50 >= 30.0 and growth_stage == 'Sowing / Planting'",
+        "category": "Paddy Field Management",
+        "title": "Ensure Proper Drainage in Nursery",
+        "advisory": "Heavy rainfall expected during nursery/transplanting. Maintain drainage channels to avoid submergence of young paddy seedlings.",
+        "severity": "High",
+        "reason": "Young rice nursery beds can suffer seedling rot under prolonged standing water."
+      },
+      {
+        "condition": "tmin_p50 < 15.0 and growth_stage == 'Flowering / Pollination'",
+        "category": "Cold Sensitivity",
+        "title": "Maintain Shallow Water Layer",
+        "advisory": "Cool night temperatures expected (TMIN P50: {tmin_p50} °C). Maintain 5 cm standing water in paddy fields at night to buffer soil temperature.",
+        "severity": "Moderate",
+        "reason": "Water thermal capacity protects spikelet sterility caused by cold nighttime temperatures."
+      }
+    ],
+    "Maize": [
+      {
+        "condition": "rain_p50 >= 25.0 and growth_stage in ['Sowing / Planting', 'Vegetative']",
+        "category": "Field Drainage",
+        "title": "Clear Waterlogging in Maize Fields",
+        "advisory": "Maize is highly sensitive to waterlogging. Ensure surplus water is drained rapidly from rows.",
+        "severity": "High",
+        "reason": "Standing water for more than 24 hours causes oxygen starvation in maize root systems."
+      }
+    ],
+    "Tomato": [
+      {
+        "condition": "rain_p50 >= 10.0 and tmax_p50 >= 24.0 and tmax_p50 <= 30.0",
+        "category": "Disease Alert - Late Blight Risk",
+        "title": "High Late Blight Fungal Infection Risk",
+        "advisory": "Humid rainy weather creates optimal conditions for Late Blight (*Phytophthora infestans*). Inspect foliage and apply protective bio-pesticides or recommended fungicides when weather clears.",
+        "severity": "High",
+        "reason": "Combined high humidity and moderate temperatures accelerate spore germination on tomato leaves."
+      }
+    ],
+    "Potato": [
+      {
+        "condition": "rain_p50 >= 15.0 and growth_stage == 'Harvesting / Post-Harvest'",
+        "category": "Tuber Quality",
+        "title": "Suspend Potato Tuber Digging",
+        "advisory": "Do not harvest wet potato fields. Allow soil to dry before digging to prevent tuber rot during storage.",
+        "severity": "High",
+        "reason": "Wet soil adhering to potato tubers promotes bacterial soft rot."
+      }
+    ],
+    "Apple": [
+      {
+        "condition": "rain_p50 >= 10.0 and growth_stage in ['Flowering / Pollination', 'Fruit / Grain Filling']",
+        "category": "Orchard Disease Risk",
+        "title": "Apple Scab Risk Alert",
+        "advisory": "Extended leaf wetness expected. Monitor canopy for early apple scab lesions. Plan curative fungicide applications once rain subsides.",
+        "severity": "High",
+        "reason": "Continuous wet leaf duration favors Venturia inaequalis infection."
+      }
+    ]
+  }
+}
